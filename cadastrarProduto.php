@@ -1,3 +1,39 @@
+<?php 
+$caminhoArquivo = __DIR__."/produtos.json";
+$produtos = json_decode(file_get_contents($caminhoArquivo), true);
+function cadastrarProduto($nomeProduto, $categoriaProduto, $descricaoProduto, $quantidadeProduto, $precoProduto, $imgProduto) {
+    $nomeArquivo = "produtos.json";
+    if(file_exists($nomeArquivo)) {
+        //abrindo e pegando informações do arquivo
+        $arquivo = file_get_contents($nomeArquivo);
+        //transformando o json em array
+        $produtos = json_decode($arquivo, true);
+        //adicionando um novo produto na array qye estava dentro do arquivo
+        $produtos[] = ["nome"=>$nomeProduto, "categoria"=>$categoriaProduto, "descricao"=>$descricaoProduto, "quantidade"=>$quantidadeProduto, "preco"=>$precoProduto, "img"=>$imgProduto];
+        $json = json_encode($produtos);
+        //salvando o json dentro de um arquivo
+        file_put_contents($nomeArquivo, $json);        
+    } else {
+        $produtos = [];
+        // array_push()
+        $produtos[] = ["nome"=>$nomeProduto, "categoria"=>$categoriaProduto, "descricao"=>$descricaoProduto, "quantidade"=>$quantidadeProduto, "preco"=>$precoProduto, "img"=>$imgProduto];
+        //transformando array em json
+        $json = json_encode($produtos);
+        //salvando o json dentro de um arquivo
+        file_put_contents($nomeArquivo, $json);
+    }
+}
+if($_POST) {
+    //salvando arquivo
+    $nomeImg = $_FILES['imgProduto']['name'];
+    $localTmp = $_FILES['imgProduto']['tmp_name'];
+    $dataAtual = date("d-m-y");
+    $caminhoSalvo = 'img/'.$nomeImg;
+    move_uploaded_file($localTmp, $caminhoSalvo);
+    cadastrarProduto($_POST['nomeProduto'], $_POST['categoriaProduto'], $_POST['descricaoProduto'], $_POST['quantidadeProduto'], $_POST['precoProduto'], $caminhoSalvo);
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,6 +48,26 @@
         <div class="row p-4">
             <div class="col-7">
                 <h1 class="pb-3">Todos os produtos</h1>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Categoria</th>
+                            <th scope="col">Preço</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php if(isset($produtos) && $produtos != [])  {?>
+                        <?php foreach($produtos as $produto) { ?>
+                            <tr>
+                                <td><a href="detalhesProduto.php?nome="</a><?php echo $produto["nome"]; ?></td>
+                                <td><?php echo $produto["categoria"]; ?></td>
+                                <td><?php echo "R$".$produto["preco"]; ?></td>
+                            </tr>
+                        <?php } ?>
+                    <?php } ?>
+                    </tbody>
+                </table>
             </div>
             <div class="col-5 bg-light p-5">
                 <h5 class="pb-3">Cadastrar produto</h5>
