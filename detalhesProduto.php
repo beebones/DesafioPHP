@@ -16,23 +16,37 @@ $produtos = json_decode(file_get_contents($caminhoArquivo), true);
 </head>
 <body>
     <div class="container">
-        <div class="p-4 bg-light">
+        <div class="p-4 bg-light mt-3">
         <button class="ml-4"><a href="cadastrarProduto.php" class="text-decoration-none text-dark"><i class="icon-long-arrow-left"></i> Voltar para a lista de produtos</a></button> 
             
             <?php foreach($produtos as $produto) { ?>
-                <?php if($_GET["nome"] == $produto["nome"]) { ?> 
-                    <div class="col-5 bg-light p-4">
-                        <img src="<?php echo $produto['img']; ?>" class="img-fluid" alt="<?php echo $produto['descricao']; ?>">
-                    </div>
+                <?php if($_GET["nome"] == $produto["nome"]) { ?>
+                    <div class="row">
+                        <div class="col-5 bg-light p-4">
+                            <img src="<?php echo $produto['img']; ?>" class="img-fluid" alt="<?php echo $produto['descricao']; ?>">
+                        </div>
 
-                    <div class="col-7 bg-light p-7">
-
+                        <div class="col-7 bg-light p-7 mt-3">
+                            <h1><?php echo $produto['nome']; ?></h1>
+                            <label>Categoria</label>
+                            <p><?php echo $produto['categoria']; ?></p>
+                            <label>Descrição</label>
+                            <p><?php echo $produto['descricao']; ?></p>
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>Quantidade</label>
+                                    <p><?php echo $produto['quantidade']; ?></p>
+                                </div>
+                                <div class="col-6">
+                                    <label>Preço</label>
+                                    <p><?php echo $produto['preco']; ?></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 <?php } ?>
             <?php } ?>
-
         </div>
-    </div>
-    
+    </div>    
 </body>
 </html>

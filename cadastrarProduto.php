@@ -70,7 +70,7 @@ if($_POST) {
                 </table>
             </div>
             <div class="col-5 bg-light p-5">
-                <h5 class="pb-3">Cadastrar produto</h5>
+                <h5 class="mb-3">Cadastrar produto</h5>
                 <form action="" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nomeProduto">Nome</label>
