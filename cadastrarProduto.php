@@ -1,6 +1,4 @@
 <?php 
-$caminhoArquivo = __DIR__."/produtos.json";
-$produtos = json_decode(file_get_contents($caminhoArquivo), true);
 function cadastrarProduto($nomeProduto, $categoriaProduto, $descricaoProduto, $quantidadeProduto, $precoProduto, $imgProduto) {
     $nomeArquivo = "produtos.json";
     if(file_exists($nomeArquivo)) {
@@ -44,6 +42,10 @@ if($_POST) {
     <title>Cadastrar Produto</title>
 </head>
 <body>
+    <?php 
+    $caminhoArquivo = __DIR__."/produtos.json";
+    $produtos = json_decode(file_get_contents($caminhoArquivo), true);
+    ?>
     <div class="container">
         <div class="row p-4">
             <div class="col-7">
@@ -71,7 +73,7 @@ if($_POST) {
             </div>
             <div class="col-5 bg-light p-5">
                 <h5 class="mb-3">Cadastrar produto</h5>
-                <form action="" method="post" enctype="multipart/form-data">
+                <form action="cadastrarProduto.php" method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="nomeProduto">Nome</label>
                         <input type="text" class="form-control" id="nomeProduto" name="nomeProduto">
@@ -103,7 +105,7 @@ if($_POST) {
                         <input type="file" class="form-control-file" id="imgProduto" name="imgProduto">
                     </div>
                     <div class="text-right">
-                        <button class="btn btn-primary">Enviar</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
                     </div>
                 </form>
             </div>
